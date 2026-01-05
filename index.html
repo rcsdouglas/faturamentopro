@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão Inteligente de Faturamento Médico - TISS/SADT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Custom Styles for Tailwind adjustments */
+        body { font-family: 'Inter', sans-serif; background-color: #FDFBF7; color: #1F2937; }
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin: 0 auto; height: 350px; max-height: 400px; }
+        .gradient-text { background: linear-gradient(135deg, #059669 0%, #047857 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1); }
+        .step-connector { position: absolute; left: 24px; top: 40px; bottom: -20px; width: 2px; background-color: #E5E7EB; z-index: 0; }
+        .last-step .step-connector { display: none; }
+    </style>
+    <!-- Chosen Palette: "Medical Trust & Warmth" - Background: Warm Neutral (#FDFBF7), Primary: Emerald Green (Success/Money), Secondary: Slate Blue (Professionalism) -->
+    <!-- Application Structure Plan:
+        1. Hero/Hook: Emotional connection to "losing money" (Glosas).
+        2. Diagnosis/Chart: Interactive Donut chart showing "Why you don't get paid" (Reasons for Glosas). Goals: Inform & Agitate.
+        3. The Cure/Process: Vertical step-by-step visualizer. Goal: Clarify the complexity you handle.
+        4. ROI Calculator: Interactive tool comparing "In-house Secretary" vs. "Your Service (Per Guide)". Justifies the per-guide pricing model.
+        5. Social Proof/Bio: Generated authority text.
+        6. Funnel CTA: WhatsApp focused.
+    -->
+    <!-- Visualization & Content Choices:
+        - Glosas Chart: Donut Chart. Goal: Inform/Shock. Shows breakdown of denial reasons. Interaction: Click to see definition of reason.
+        - ROI Calculator: Input fields + Dynamic Bar Chart. Goal: Compare costs. Justifies outsourcing.
+        - Process Flow: HTML/CSS vertical list with icons. No SVG.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+</head>
+<body class="antialiased">
+
+    <!-- Navigation -->
+ <nav class="fixed w-full z-50 bg-[#FDFBF7]/90 backdrop-blur-md border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16 items-center">
+            <div class="flex-shrink-0 flex items-center">
+                <a href="#" class="font-bold text-2xl text-emerald-700 hover:opacity-80 transition">
+                    Faturamento<span class="text-gray-600">Pro</span>
+                </a>
+            </div>
+            <div class="hidden md:flex space-x-8">
+                <a href="#problema" class="text-gray-600 hover:text-emerald-600 transition">O Problema</a>
+                <a href="#como-funciona" class="text-gray-600 hover:text-emerald-600 transition">Como Funciona</a>
+                <a href="#calculadora" class="text-gray-600 hover:text-emerald-600 transition font-bold">Calculadora de Lucro</a>
+                <a href="https://wa.me/5522999745748?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20faturamento%20TISS." target="_blank" class="bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition shadow-lg transform hover:scale-105">Fale no WhatsApp</a>
+            </div>
+        </div>
+    </div>
+</nav>
+
+    <!-- Hero Section (Hook) -->
+    <header class="pt-32 pb-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-emerald-50 to-[#FDFBF7]">
+        <div class="max-w-4xl mx-auto text-center">
+            <div class="inline-block bg-emerald-100 text-emerald-800 px-4 py-1 rounded-full text-sm font-semibold tracking-wide mb-6">
+                ESPECIALISTA EM PADRÃO TISS/SADT
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold text-gray-900 mb-6 leading-tight">
+                Você cuida do paciente. <br>
+                <span class="gradient-text">Nós cuidamos do seu pagamento.</span>
+            </h1>
+            <p class="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
+                Transforme guias de papel em dinheiro na conta. Elimine glosas, reduza a burocracia e aumente o faturamento da sua clínica sem contratar mais funcionários.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#contato" class="bg-emerald-600 text-white text-lg font-bold px-8 py-4 rounded-xl shadow-xl hover:bg-emerald-700 transition transform hover:-translate-y-1">
+                    Quero Auditar Meu Faturamento
+                </a>
+                <a href="#como-funciona" class="bg-white text-emerald-700 border border-emerald-200 text-lg font-bold px-8 py-4 rounded-xl shadow-sm hover:bg-gray-50 transition">
+                    Ver Como Funciona
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- The Problem: Glosas Visualization (Agitate) -->
+    <section id="problema" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-gray-900 mb-6">Por que você está perdendo dinheiro?</h2>
+                    <p class="text-lg text-gray-600 mb-6">
+                        A "Glosa" é o pesadelo do profissional de saúde. Pequenos erros de digitação, falta de assinaturas ou códigos incompatíveis travam o seu pagamento por meses.
+                    </p>
+                    <p class="text-gray-600 mb-8">
+                        Baseado em nossa análise de mercado, veja os principais vilões do faturamento médico. <strong>Toque no gráfico para ver detalhes.</strong>
+                    </p>
+                    
+                    <div class="bg-emerald-50 p-6 rounded-lg border-l-4 border-emerald-500">
+                        <h4 class="font-bold text-emerald-800 mb-2">A Solução?</h4>
+                        <p class="text-sm text-emerald-700">Uma auditoria prévia rigorosa antes do envio do arquivo XML. É exatamente aqui que entramos.</p>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-2xl shadow-lg border border-gray-100">
+                    <h3 class="text-center font-semibold text-gray-700 mb-4">Principais Motivos de Glosas (Estimativa)</h3>
+                    <div class="chart-container">
+                        <canvas id="glosaChart"></canvas>
+                    </div>
+                    <p id="chart-detail" class="text-center mt-4 text-sm font-medium text-emerald-600 min-h-[1.5rem]">
+                        Passe o mouse ou clique nas fatias
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Target Audience (Who) -->
+    <section class="py-16 bg-[#FDFBF7]">
+        <div class="max-w-7xl mx-auto px-4">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-gray-900">Para Quem é Este Serviço?</h2>
+                <p class="mt-4 text-gray-600">Atendimento especializado para profissionais liberais e pequenas clínicas.</p>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <!-- Cards generated via JS loop logic ideally, but hardcoded for clarity in single file -->
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center border border-gray-100 card-hover">
+                    <div class="text-3xl mb-3">🧠</div>
+                    <h3 class="font-bold text-gray-800 text-sm">Psicologia</h3>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center border border-gray-100 card-hover">
+                    <div class="text-3xl mb-3">🍎</div>
+                    <h3 class="font-bold text-gray-800 text-sm">Nutrição</h3>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center border border-gray-100 card-hover">
+                    <div class="text-3xl mb-3">🗣️</div>
+                    <h3 class="font-bold text-gray-800 text-sm">Fonoaudiologia</h3>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center border border-gray-100 card-hover">
+                    <div class="text-3xl mb-3">❤️</div>
+                    <h3 class="font-bold text-gray-800 text-sm">Cardiologia</h3>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center border border-gray-100 card-hover">
+                    <div class="text-3xl mb-3">🩺</div>
+                    <h3 class="font-bold text-gray-800 text-sm">Clínico Geral</h3>
+                </div>
+                <div class="bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition text-center border border-gray-100 card-hover">
+                    <div class="text-3xl mb-3">💪</div>
+                    <h3 class="font-bold text-gray-800 text-sm">Fisioterapia</h3>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- The Solution: Process Visualization -->
+    <section id="como-funciona" class="py-20 bg-white">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-gray-900">Como Funciona o Fluxo de Trabalho</h2>
+                <p class="mt-4 text-gray-600">Da coleta das guias até o dinheiro na sua conta. Um processo transparente e auditável.</p>
+            </div>
+
+            <div class="relative space-y-0">
+                <!-- Step 1 -->
+                <div class="relative flex gap-6 pb-12 group">
+                    <div class="step-connector"></div>
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xl border-4 border-white shadow-md z-10 group-hover:bg-emerald-600 group-hover:text-white transition-colors">1</div>
+                    <div class="flex-grow pt-1">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Coleta e Análise</h3>
+                        <p class="text-gray-600">Recebemos suas guias físicas ou digitais. Fazemos uma triagem inicial para identificar erros de preenchimento antes mesmo de digitar.</p>
+                    </div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="relative flex gap-6 pb-12 group">
+                    <div class="step-connector"></div>
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xl border-4 border-white shadow-md z-10 group-hover:bg-emerald-600 group-hover:text-white transition-colors">2</div>
+                    <div class="flex-grow pt-1">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Processamento XML (TISS)</h3>
+                        <p class="text-gray-600">Digitação no padrão TISS exigido pela ANS e exportação segura dos arquivos XML para cada convênio.</p>
+                    </div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="relative flex gap-6 pb-12 group">
+                    <div class="step-connector"></div>
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xl border-4 border-white shadow-md z-10 group-hover:bg-emerald-600 group-hover:text-white transition-colors">3</div>
+                    <div class="flex-grow pt-1">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Envio e Protocolos</h3>
+                        <p class="text-gray-600">Enviamos aos convênios dentro dos prazos estipulados. Geramos e arquivamos todos os protocolos de entrega.</p>
+                    </div>
+                </div>
+
+                <!-- Step 4 -->
+                <div class="relative flex gap-6 pb-12 group">
+                    <div class="step-connector"></div>
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xl border-4 border-white shadow-md z-10 group-hover:bg-emerald-600 group-hover:text-white transition-colors">4</div>
+                    <div class="flex-grow pt-1">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Gestão de Glosas</h3>
+                        <p class="text-gray-600">Monitoramos os pagamentos. Se houver glosa indevida, realizamos o recurso imediatamente para recuperar o valor.</p>
+                    </div>
+                </div>
+
+                 <!-- Step 5 -->
+                 <div class="relative flex gap-6 last-step group">
+                    <div class="step-connector"></div>
+                    <div class="flex-shrink-0 w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-xl border-4 border-white shadow-md z-10 group-hover:bg-emerald-600 group-hover:text-white transition-colors">5</div>
+                    <div class="flex-grow pt-1">
+                        <h3 class="text-xl font-bold text-gray-900 mb-2">Relatórios Financeiros</h3>
+                        <p class="text-gray-600">Você recebe um relatório claro: O que foi faturado, o que foi pago e o que está pendente. Transparência total.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Strategy / Value Calculator (The "Epiphany Bridge") -->
+    <section id="calculadora" class="py-20 bg-gray-900 text-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-12">
+                <span class="text-emerald-400 font-bold tracking-wider text-sm uppercase">Simulador de Viabilidade</span>
+                <h2 class="text-3xl md:text-4xl font-bold mt-2 mb-6">Vale a pena terceirizar?</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">
+                    Muitos profissionais acham que "cobrar por guia" é caro. Na verdade, caro é manter uma estrutura fixa ou perder horas tentando entender o sistema do convênio. Faça as contas.
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-10 items-start">
+                <!-- Controls -->
+                <div class="bg-gray-800 p-8 rounded-2xl shadow-xl border border-gray-700">
+                    <div class="mb-8">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Quantidade média de guias/mês</label>
+                        <input type="range" id="guiasInput" min="50" max="1000" step="10" value="200" class="w-full h-2 bg-gray-600 rounded-lg appearance-none cursor-pointer accent-emerald-500">
+                        <div class="flex justify-between mt-2">
+                            <span class="text-xs text-gray-500">50</span>
+                            <span id="guiasDisplay" class="text-2xl font-bold text-emerald-400">200 guias</span>
+                            <span class="text-xs text-gray-500">1000</span>
+                        </div>
+                    </div>
+
+                    <div class="mb-8">
+                        <label class="block text-sm font-medium text-gray-300 mb-2">Custo Funcionário Interno (Salário + Encargos + Software)</label>
+                        <div class="relative rounded-md shadow-sm">
+                            <div class="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
+                                <span class="text-gray-400 sm:text-sm">R$</span>
+                            </div>
+                            <input type="number" id="custoInterno" value="3500" class="block w-full rounded-md border-0 bg-gray-700 py-3 pl-10 text-white ring-1 ring-inset ring-gray-600 focus:ring-2 focus:ring-inset focus:ring-emerald-500 sm:text-sm sm:leading-6">
+                        </div>
+                        <p class="text-xs text-gray-500 mt-2">Considerando salário mínimo, encargos, férias, 13º e sistema.</p>
+                    </div>
+
+                    <div class="p-4 bg-emerald-900/30 border border-emerald-500/30 rounded-lg">
+                        <h4 class="font-bold text-emerald-400 mb-2">Nossa Proposta (Estimada):</h4>
+                        <p class="text-sm text-gray-300">Cobramos por produtividade. Se você não atende, não paga fixo.</p>
+                        <div class="mt-2 text-3xl font-bold text-white">R$ <span id="custoNosso">0,00</span> <span class="text-sm font-normal text-gray-400">/mês</span></div>
+                        <p class="text-xs text-gray-500 mt-1">*Baseado em valor médio de mercado por guia.</p>
+                    </div>
+                </div>
+
+                <!-- Result Visualization -->
+                <div class="bg-white text-gray-900 p-8 rounded-2xl shadow-xl h-full flex flex-col justify-center">
+                    <h3 class="text-xl font-bold mb-6 text-center">Economia Anual Projetada</h3>
+                    <div class="chart-container" style="height: 300px;">
+                        <canvas id="roiChart"></canvas>
+                    </div>
+                    <div class="mt-6 text-center">
+                        <p class="text-sm text-gray-500">Você economiza:</p>
+                        <p class="text-4xl font-bold text-emerald-600">R$ <span id="economiaAnual">0,00</span></p>
+                        <p class="text-xs text-gray-400 mt-2">Além do tempo livre ganho para atender mais pacientes.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About the Expert (Authority) -->
+    <section class="py-20 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-3xl font-bold text-gray-900 mb-8">Quem cuidará do seu faturamento?</h2>
+            
+            <div class="bg-[#FDFBF7] p-8 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden">
+                <!-- Quote mark decoration -->
+                <div class="absolute top-0 left-0 transform -translate-x-4 -translate-y-4 text-9xl text-emerald-100 opacity-50 font-serif">"</div>
+                
+                <div class="relative z-10">
+                    <h3 class="text-xl font-bold text-emerald-800 mb-4">Especialista em Gestão de Contas Médicas</h3>
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        Com vasta experiência no setor de saúde suplementar, meu foco não é apenas "digitar guias", mas sim atuar como um parceiro estratégico para sua clínica. Entendo a fundo as regras da ANS, tabelas TUSS, CBHPM e as particularidades de cada operadora (Unimed, Bradesco, SulAmérica, etc.).
+                    </p>
+                    <p class="text-gray-700 leading-relaxed mb-6">
+                        Meu objetivo é garantir que cada procedimento realizado seja devidamente remunerado, eliminando gargalos administrativos e permitindo que você foque no que realmente importa: a saúde dos seus pacientes.
+                    </p>
+                    
+                    <div class="mt-8 flex flex-col sm:flex-row justify-center gap-6 text-sm font-semibold text-gray-600">
+                        <div class="flex items-center justify-center gap-2">
+                            <span class="bg-emerald-200 text-emerald-800 p-1 rounded-full text-xs">✓</span> Redução de Glosas
+                        </div>
+                        <div class="flex items-center justify-center gap-2">
+                            <span class="bg-emerald-200 text-emerald-800 p-1 rounded-full text-xs">✓</span> Pontualidade
+                        </div>
+                        <div class="flex items-center justify-center gap-2">
+                            <span class="bg-emerald-200 text-emerald-800 p-1 rounded-full text-xs">✓</span> Sigilo Absoluto
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer / CTA Section -->
+    <footer id="contato" class="bg-emerald-900 text-white py-16">
+        <div class="max-w-4xl mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6">Pronto para organizar seu financeiro?</h2>
+            <p class="text-emerald-100 text-lg mb-10">
+                Não deixe para depois. Cada dia com guias paradas é dinheiro perdendo valor. 
+                Clique abaixo e solicite uma análise sem compromisso.
+            </p>
+            
+            <div class="flex flex-col items-center gap-6">
+                <a href="https://wa.me/5522999745748?text=Olá,%20gostaria%20de%20saber%20mais%20sobre%20o%20faturamento%20TISS." target="_blank" class="bg-[#25D366] text-white text-xl font-bold px-8 py-4 rounded-full shadow-lg hover:bg-[#20bd5a] transition flex items-center gap-3 transform hover:scale-105">
+                    <span>📱</span> Falar no WhatsApp (22) 99974-5748
+                </a>
+                
+                <div class="text-sm text-emerald-300 opacity-80 mt-4">
+                    <p>Atendendo em Campos dos Goytacazes e Região</p>
+                    <p>Faturamento TISS • SADT • Recursos de Glosas</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts for Interactivity -->
+    <script>
+        // --- Glosa Chart (Donut) ---
+        // Context: Shows typical reasons for payment denial to educate the user.
+        const ctxGlosa = document.getElementById('glosaChart').getContext('2d');
+        const glosaChart = new Chart(ctxGlosa, {
+            type: 'doughnut',
+            data: {
+                labels: ['Dados Incorretos (Cartão/Nome)', 'Falta de Autorização', 'Código TUSS Inválido', 'Falta de Assinatura', 'Prazo Vencido'],
+                datasets: [{
+                    data: [35, 25, 20, 15, 5],
+                    backgroundColor: ['#10B981', '#34D399', '#6EE7B7', '#A7F3D0', '#D1FAE5'],
+                    borderWidth: 0,
+                    hoverOffset: 10
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: { position: 'bottom', labels: { boxWidth: 12, padding: 20 } },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return ` ${context.label}: ${context.raw}% das ocorrências`;
+                            }
+                        }
+                    }
+                },
+                onHover: (event, elements) => {
+                    const detailEl = document.getElementById('chart-detail');
+                    if (elements.length > 0) {
+                        const index = elements[0].index;
+                        const descriptions = [
+                            "Erro de digitação no nome ou número da carteirinha. Solução: Validação automática.",
+                            "Procedimento realizado sem senha ou senha vencida. Solução: Controle de prazos.",
+                            "Uso de tabela desatualizada. Solução: Atualização constante das tabelas.",
+                            "Esquecimento do profissional ou paciente. Solução: Checklist de recebimento.",
+                            "Envio do XML fora da data de corte. Solução: Cronograma rigoroso."
+                        ];
+                        detailEl.textContent = descriptions[index];
+                    } else {
+                        detailEl.textContent = "Passe o mouse ou clique nas fatias";
+                    }
+                }
+            }
+        });
+
+        // --- ROI Calculator Logic ---
+        // Context: Calculates "Per Guide" cost vs Fixed Cost to prove value.
+        // Assumption: Average market price per guide is around R$ 4.00 for simulation purposes.
+        
+        const guiasInput = document.getElementById('guiasInput');
+        const custoInternoInput = document.getElementById('custoInterno');
+        const guiasDisplay = document.getElementById('guiasDisplay');
+        const custoNossoDisplay = document.getElementById('custoNosso');
+        const economiaDisplay = document.getElementById('economiaAnual');
+        
+        const ctxRoi = document.getElementById('roiChart').getContext('2d');
+        let roiChart;
+
+        function updateCalculator() {
+            const numGuias = parseInt(guiasInput.value);
+            const custoFixo = parseFloat(custoInternoInput.value) || 0;
+            
+            guiasDisplay.textContent = `${numGuias} guias`;
+
+            // Pricing Model Simulation (Tiered for logic)
+            // Less than 100 guides: R$ 5.00
+            // 100-300: R$ 4.00
+            // 300+: R$ 3.50
+            let precoPorGuia = 6.00;
+            if (numGuias < 400) precoPorGuia = 7.00;
+            if (numGuias > 800) precoPorGuia = 5.00;
+
+            const custoTerceirizado = numGuias * precoPorGuia;
+            const economiaMensal = custoFixo - custoTerceirizado;
+            const economiaAnual = economiaMensal * 12;
+
+            custoNossoDisplay.textContent = custoTerceirizado.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            
+            // Update Text Color based on savings
+            const econEl = document.getElementById('economiaAnual');
+            if (economiaAnual > 0) {
+                econEl.textContent = economiaAnual.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+                econEl.classList.remove('text-red-600');
+                econEl.classList.add('text-emerald-600');
+            } else {
+                econEl.textContent = economiaAnual.toLocaleString('pt-BR', { minimumFractionDigits: 2 });
+                econEl.classList.remove('text-emerald-600');
+                econEl.classList.add('text-red-600');
+            }
+
+            // Update Chart
+            const data = [custoFixo * 12, custoTerceirizado * 12];
+            
+            if (roiChart) {
+                roiChart.data.datasets[0].data = data;
+                roiChart.update();
+            } else {
+                roiChart = new Chart(ctxRoi, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Custo Interno (Anual)', 'Terceirizado (Anual)'],
+                        datasets: [{
+                            label: 'Custo Total (R$)',
+                            data: data,
+                            backgroundColor: ['#EF4444', '#10B981'], // Red for Internal, Green for Outsourced
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        return `R$ ${context.raw.toLocaleString('pt-BR')}`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            y: { beginAtZero: true, grid: { color: '#f3f4f6' } },
+                            x: { grid: { display: false } }
+                        }
+                    }
+                });
+            }
+        }
+
+        // Event Listeners
+        guiasInput.addEventListener('input', updateCalculator);
+        custoInternoInput.addEventListener('input', updateCalculator);
+
+        // Initialize
+        updateCalculator();
+
+    </script>
+</body>
+</html>
